@@ -1,3 +1,14 @@
+#If required the libraries to install
+if (!require("jsonlite")) install.packages("jsonlite")
+if (!require("tidyverse")) install.packages("tidyverse")
+if (!require("caret")) install.packages("caret")
+if (!require("e1071")) install.packages("e1071")
+if (!require("rpart")) install.packages("rpart")
+if (!require("wordcloud")) install.packages("wordcloud")
+if (!require("tidytext")) install.packages("tidytext")
+if (!require("reshape2")) install.packages("reshape2")
+if (!require("RWeka")) install.packages("RWeka")
+
 #Import libraries and subset the data
 library(jsonlite)
 library(tidyverse)
@@ -10,7 +21,11 @@ library(tidytext)
 library(reshape2)
 library(RWeka)
 
-json <- stream_in(file("C:\\Users\\coolhead\\Downloads\\reviews_Cell_Phones_and_Accessories.json"))
+json <- stream_in(
+  gzcon(
+    url("http://snap.stanford.edu/data/amazon/productGraph/categoryFiles/reviews_Cell_Phones_and_Accessories_5.json.gz")
+  )
+)
 json_tbl <- tbl_df(json)
 set.seed(1)
 reviews <- json_tbl[sample(nrow(json_tbl), 1000), ]
